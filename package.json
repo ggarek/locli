@@ -1,0 +1,30 @@
+{
+  "name": "locli",
+  "version": "0.1.0",
+  "description": "CLI for managing json files with similar structure in a batch ",
+  "main": "lib/scripts/locli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel src/ -d lib/ -w"
+  },
+  "bin": {
+    "locli": "./lib/scripts/locli.js"
+  },
+  "keywords": [
+    "cli",
+    "json",
+    "locale",
+    "i18n",
+    "tool"
+  ],
+  "author": "Igor Ovsiannikov <garek@mail.ru>",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.9.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-stage-2": "^6.13.0"
+  }
+}

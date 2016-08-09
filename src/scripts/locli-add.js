@@ -1,14 +1,14 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const readline = require('readline');
 const {padRight} = require('./utils/string');
 
 
-export default function locliAddInteractive(key, options) {
+function locliAddInteractive(key, options) {
   const localesPath = options.path;
   const indentation = options.indentation;
-  const params = options.params;
 
   // Start
   const rl = readline.createInterface({
@@ -67,4 +67,14 @@ export default function locliAddInteractive(key, options) {
   next();
 }
 
-module.exports = locliAddInteractive;
+function locliAddWrapper(key, options) {
+  if (options.interactive) {
+    console.log('adding key interactively', key);
+    locliAddInteractive(key, options);
+  } else {
+    console.log('locli supports only interactive mode (-i) for now');
+    process.exit(1);
+  }
+}
+
+module.exports = locliAddWrapper;

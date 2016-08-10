@@ -6,6 +6,7 @@ const locliAdd = require('./locli-add');
 const locliRemove = require('./locli-remove');
 const locliRename = require('./locli-rename');
 const locliPrint = require('./locli-print');
+const locliEdit = require('./locli-edit');
 
 const pkg = JSON.parse(fs.readFileSync('./package.json'));
 
@@ -17,6 +18,7 @@ const context = {
 
 program.version(pkg.version);
 
+// TODO: seems `add` command becomes obsolete with `edit` introduced
 program.command('add [key]')
   .description( 'add the new key')
   .option('-i --interactive', 'interactive mode')
@@ -33,6 +35,10 @@ program.command('rename [oldKey] [newKey]')
 program.command('print [key]')
   .description('print values for the key')
   .action((key, options) => locliPrint(key, {...context, ...options}));
+
+program.command('edit [key]')
+  .description('edit values for the key')
+  .action((key, options) => locliEdit(key, {...context, ...options}));
   
 // .command('verify', 'verify files by a given ethalon')
 

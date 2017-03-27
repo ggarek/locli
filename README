@@ -1,11 +1,14 @@
 
 - add key to locales: key+default value(en)
 - remove key from locales: key
+  - remove key with wildcards, like 'tradePanel.*' -> ask user for each key, or remove all (like git clean -i)
+  - remove list of keys (separator = \s or , )
 - compare locales: ethalon(en)
 - interactive set value by key (much like `git clean -i`)
 - rename key (old key -> new key)
 - print a by key report for ctrl-c presentation
 - edit [key] - forms a buffer to be edited with only locales partition necessary, makes `add` command obsolete
+- add option to view/inspect particular key (e.g. could be useful to share progress)
 
 Must be a js API(to use in webpack for example) and cli tool
 

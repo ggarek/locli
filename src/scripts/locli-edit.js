@@ -4,6 +4,9 @@ const childProcess = require('child_process');
 const readline = require('readline');
 const {padRight} = require('./utils/string');
 
+// TODO: user config
+const EDITOR = 'vim';
+
 function createEditBuffer(key, entries) {
   let buffer = '';
   buffer += `# You are about to edit a key "${key}"\n`;
@@ -39,7 +42,6 @@ function locliEdit(key, options) {
   const files = fs.readdirSync(localesPath);
 
   const entries = [];
-
   for (let i = 0; i < files.length; i++) {
     const fileName = path.resolve(path.join(localesPath, files[i]));
     const content = JSON.parse(fs.readFileSync(fileName));
@@ -51,9 +53,10 @@ function locliEdit(key, options) {
   const buffer = createEditBuffer(key, entries);
   const editFile = './\~locli.edit';
   fs.writeFileSync(editFile, buffer);
-  const editor = childProcess.spawn('vi', [editFile], {stdio: 'inherit'});
+  const editor = childProcess.spawn(EDITOR, [editFile], {stdio: 'inherit'});
   editor.on('close', code => {
     // TODO: may check edit buffer md5, and if it is the same - do not apply changes
+    console.log(`${EDITOR} exit code is`, code);
     if (code === 0) {
       handleEditComplete();
     } else {
@@ -61,18 +64,17 @@ function locliEdit(key, options) {
     }
 
   });
-  // editor.on('error', (...args) => console.log('Editor process error', args));
-  // editor.on('data', (...args) => console.log('Editor process data', args));
+  editor.on('error', (...args) => console.log('Editor process error', args));
+  editor.on('data', (...args) => console.log('Editor process data', args));
 
   function handleEditComplete() {
     const editedEntries = [];
 
     const parseLine = line => {
-
-      let separatorIdx = line.indexOf(' ');
-      if (separatorIdx === -1) separatorIdx = line.indexOf('\t');
+      let separatorIdx = line.indexOf('\t');
+      // if (separatorIdx === -1) separatorIdx = line.indexOf('\t');
       if (separatorIdx === -1) {
-        console.log(`filed to parse a line\n${line}`);
+        console.log(`failed to parse a line\n${line}`);
         process.exit(1);
       }
       const fileName = line.substr(0, separatorIdx).trim();

@@ -1,0 +1,44 @@
+# Features
+[-] edit [key|key-list]
+[-] remove [key|key-list]
+[-] rename [oldKey] [newKey]
+[-] copy [key] [newKey]
+[-] print [[key|key-list] | key=[*|key|key-list]
+[-] export --format=csv
+[-] import --format=csv
+[-] add [key] --default=[value] // subset of edit
+[-] validate --ethalon=[file]
+
+
+# Mess
+
+- add key to locales: key+default value(en)
+- remove key from locales: key
+  - remove key with wildcards, like 'tradePanel.*' -> ask user for each key, or remove all (like git clean -i)
+  - remove list of keys (separator = \s or , )
+- compare locales: ethalon(en)
+- interactive set value by key (much like `git clean -i`)
+- rename key (old key -> new key)
+- print a by key report for ctrl-c presentation
+- edit [key] - forms a buffer to be edited with only locales partition necessary, makes `add` command obsolete
+- add option to view/inspect particular key (e.g. could be useful to share progress)
+- copy key with new name + edit
+- list keys
+
+Must be a js API(to use in webpack for example) and cli tool
+
+EXAMPLES:
+// Add a key with default value for all .json files in a folder
+locli --path=./src/locales --add [key] [value]
+// Force overwrite key if present
+locli --path=./src/locales -f --add [key] [value]
+// Remove key from all the .json files
+locli --remove [key]
+// Interactive add a key for all files (one by one cycle)
+locli -i --add [key]
+// Verify all files match given ethalon (key set must be the same) may derive a scheme from ethalon
+locli --compare --ethalon=en.json
+
+More specific to cui
+find usages of all keys in given ./src and report keys that are not found at all
+for this thing to be usefull one should not use dynamic keys for localization

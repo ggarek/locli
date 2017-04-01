@@ -7,6 +7,7 @@ const locliRemove = require('./locli-remove');
 const locliRename = require('./locli-rename');
 const locliPrint = require('./locli-print');
 const locliEdit = require('./locli-edit');
+const locliCopy = require('./locli-copy');
 
 const pkg = JSON.parse(fs.readFileSync('./package.json'));
 
@@ -39,7 +40,11 @@ program.command('print [key]')
 program.command('edit [key]')
   .description('edit values for the key')
   .action((key, options) => locliEdit(key, {...context, ...options}));
-  
+
+program.command('copy [key] [new-key]')
+  .description('make a copy of an existing key')
+  .action((key, newKey, options) => locliCopy(key, newKey, {...context, ...options}));
+
 // .command('verify', 'verify files by a given ethalon')
 
 program.parse(process.argv);

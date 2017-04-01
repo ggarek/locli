@@ -56,7 +56,7 @@ function locliEdit(key, options) {
   const editor = childProcess.spawn(EDITOR, [editFile], {stdio: 'inherit'});
   editor.on('close', code => {
     // TODO: may check edit buffer md5, and if it is the same - do not apply changes
-    console.log(`${EDITOR} exit code is`, code);
+    // console.log(`${EDITOR} exit code is`, code);
     if (code === 0) {
       handleEditComplete();
     } else {

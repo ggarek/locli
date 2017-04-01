@@ -4,7 +4,7 @@ import editCmd from './commands/edit';
 import removeCmd from './commands/remove';
 import renameCmd from './commands/rename';
 import copyCmd from './commands/copy';
-
+import printCmd from './commands/print';
 
 const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
@@ -33,5 +33,9 @@ program.command('rename [oldKey] [newKey]')
 program.command('copy [srcKey] [dstKey]')
   .description('make a copy of an existing key')
   .action((srcKey:string, dstKey:string, options:any) => copyCmd(srcKey, dstKey, {...context, ...options}));
+
+program.command('print [key]')
+  .description('print values for the key')
+  .action((key, options) => printCmd(key, {...context, ...options}));
 
 program.parse(process.argv);

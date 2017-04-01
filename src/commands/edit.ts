@@ -3,9 +3,11 @@ import {
   spawnEditor,
   fileLines,
   parseSkipComments,
-  parseBufferLine,
+  parseBufferLine, ILoadedFile,
 } from '../utils';
+import { IHash } from '../types';
 import padEnd = require('lodash/padEnd');
+import keyBy = require('lodash/keyBy');
 import path = require('path');
 import pify = require('pify');
 import _fs = require('fs');
@@ -30,14 +32,13 @@ function createEditBuffer(key: string, entries: Array<[string, string]>) {
   return buffer;
 }
 
-async function applyChanges(key:string, entries:[string, string][], context:any) {
-for (let i = 0; i < entries.length; i++) {
-    const [file, newValue] = entries[i];
-    const fileName = path.resolve(path.join(context.path, file));
-    const content = JSON.parse(await fs.readFile(fileName, 'utf8'));
-    content[key] = newValue;
-    await fs.writeFile(fileName, JSON.stringify(content, null, context.indentation));
-  }
+async function applyChanges(key:string, vocabularies:Array<ILoadedFile>, entries:[string, string][], context:any) {
+  const byFile:IHash<ILoadedFile> = keyBy(vocabularies, 'fileName');
+  return Promise.all(entries.map(([file, newValue]) => {
+    const { data, filePath } = byFile[file];
+    data[key] = newValue;
+    return fs.writeFile(filePath, JSON.stringify(data, null, context.indentation));
+  }));
 }
 
 const propOrDefault = (src: { [key: string]: any }, key: string, defaultValue:any = '.'):string => {
@@ -47,7 +48,7 @@ const propOrDefault = (src: { [key: string]: any }, key: string, defaultValue:an
 async function edit(key: string, options: any): Promise<void> {
   const localesPath = options.path;
   const vocabularies = loadVocabularies(localesPath);
-  const editEntries = vocabularies.map(({ file, data }):[string, string] => [file, propOrDefault(data, key)]);
+  const editEntries = vocabularies.map(({ fileName, data }):[string, string] => [fileName, propOrDefault(data, key)]);
   const editBuffer = createEditBuffer(key, editEntries);
   const editFile =  './\~locli.edit';
 
@@ -64,7 +65,7 @@ async function edit(key: string, options: any): Promise<void> {
       process.exit(1);
     }
 
-    await applyChanges(key, editedEntries, options);
+    await applyChanges(key, vocabularies, editedEntries, options);
   } catch(e) {
     // throws if exitCode !== 0 or other errors
     console.log('error while editing...');

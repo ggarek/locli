@@ -3,8 +3,13 @@ import * as fs from 'fs';
 import * as childProcess from 'child_process';
 import readline = require('readline');
 
+export interface ILoadedFile {
+  fileName: string;
+  filePath: string;
+  data: { [key:string]: any };
+}
 
-function loadVocabularies(dirPath: string) {
+function loadVocabularies(dirPath: string):Array<ILoadedFile> {
   const files = fs.readdirSync(dirPath);
 
   const entries = [];
@@ -13,8 +18,8 @@ function loadVocabularies(dirPath: string) {
     const data = JSON.parse(fs.readFileSync(fileName, 'utf8'));
 
     entries.push({
-      file: files[i],
-      path: fileName,
+      fileName: files[i],
+      filePath: fileName,
       data,
     });
   }

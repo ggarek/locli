@@ -6,9 +6,10 @@
     "module": "commonjs",
     "types": ["node"]
   },
-  "files": [
-    "src/index.ts",
-    "src/utils.ts",
-    "src/commands/edit.ts"
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

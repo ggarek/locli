@@ -42,6 +42,7 @@ function spawnEditor(editor: string, tmpFileName: string, fileContent: string) {
 
       const editorProc = childProcess.spawn(editor, [tmpFileName], { stdio: 'inherit' });
       editorProc.on('close', code => {
+        //TODO :q in Vim results in exit code 0, which is good.. but i want to treat exit without save as abort.. how do i do that?
         if (code === 0) resolve();
         else reject({ code });
       });
@@ -101,6 +102,10 @@ async function writeFile(file:ILoadedFile, context:any):Promise<void> {
   return pfs.writeFile(file.filePath, JSON.stringify(file.data, null, context.indentation));
 }
 
+const propOrDefault = (src: { [key: string]: any }, key: string, defaultValue:any = '.'):string => {
+  return src && src.hasOwnProperty(key) ? String(src[key]) : defaultValue;
+};
+
 export {
   loadVocabularies,
   spawnEditor,
@@ -109,4 +114,5 @@ export {
   parseBufferLine,
   loadFiles,
   writeFile,
+  propOrDefault,
 }

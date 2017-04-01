@@ -3,6 +3,8 @@ import * as program from 'commander';
 import editCmd from './commands/edit';
 import removeCmd from './commands/remove';
 import renameCmd from './commands/rename';
+import copyCmd from './commands/copy';
+
 
 const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
@@ -27,5 +29,9 @@ program.command('remove [key]')
 program.command('rename [oldKey] [newKey]')
   .description('rename the key')
   .action((oldKey:string, newKey:string, options:any) => renameCmd(oldKey, newKey, {...context, ...options}));
+
+program.command('copy [srcKey] [dstKey]')
+  .description('make a copy of an existing key')
+  .action((srcKey:string, dstKey:string, options:any) => copyCmd(srcKey, dstKey, {...context, ...options}));
 
 program.parse(process.argv);

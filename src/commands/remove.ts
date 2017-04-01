@@ -1,27 +1,27 @@
-import _fs = require('fs');
-import path = require('path');
-import pify = require('pify');
-const fs = pify(_fs);
+import {
+  loadFiles,
+  writeFile,
+} from '../utils';
 
 async function remove(key:string, options:any):Promise<void> {
-  const files:[string, string][] = (await fs.readdir(options.path))
-    .map((file:string) => [file, path.resolve(path.join(options.path, file))]);
+  const files = await loadFiles(options);
 
-  const doNotHaveKey = [];
-  for (const [fileName, filePath] of files) {
-    const content = await fs.readFile(filePath, 'utf8');
-    const data = JSON.parse(content);
-    if (data.hasOwnProperty(key)) {
-      delete data[key];
-      await fs.writeFile(filePath, JSON.stringify(data, null, options.indentation));
+  const missed = [];
+  for (const file of files) {
+    if (file.data.hasOwnProperty(key)) {
+      delete file.data[key];
+      await writeFile(file, options);
     } else {
-      doNotHaveKey.push(fileName);
+      missed.push(file);
     }
   }
 
-  console.log(`${files.length - doNotHaveKey.length} of ${files.length} keys removed.`);
-  console.log(`These files do not have ${key} key: ${doNotHaveKey.join(', ')}`);
-  console.log('Please check files integrity');
+  const hit = files.length - missed.length;
+  console.log(`${hit} of ${files.length} keys removed.`);
+  if (hit < files.length) {
+    console.log(`These files do not have ${key} key: ${missed.map(x => x.fileName).join(', ')}`);
+    console.log('Please check files integrity');
+  }
 }
 
 export default remove;

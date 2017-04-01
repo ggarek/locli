@@ -3,6 +3,9 @@ import * as fs from 'fs';
 import * as childProcess from 'child_process';
 import readline = require('readline');
 
+import pify = require('pify');
+const pfs = pify(fs);
+
 export interface ILoadedFile {
   fileName: string;
   filePath: string;
@@ -83,10 +86,27 @@ function parseBufferLine(line: string):[string, string] {
   return [fileName, value];
 }
 
+async function loadFiles(context: any):Promise<Array<ILoadedFile>> {
+  const files:Array<Promise<ILoadedFile>> =
+    (await pfs.readdir(context.path))
+      .map((fileName:string) => [fileName, path.resolve(path.join(context.path, fileName))])
+      .map(([fileName, filePath]:[string, string]) =>
+        pfs.readFile(filePath, 'utf8')
+          .then((content:string) => ({ fileName, filePath, data: JSON.parse(content) }))
+      );
+  return Promise.all(files);
+}
+
+async function writeFile(file:ILoadedFile, context:any):Promise<void> {
+  return pfs.writeFile(file.filePath, JSON.stringify(file.data, null, context.indentation));
+}
+
 export {
   loadVocabularies,
   spawnEditor,
   fileLines,
   parseSkipComments,
   parseBufferLine,
+  loadFiles,
+  writeFile,
 }

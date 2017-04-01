@@ -1,7 +1,8 @@
 import * as fs from 'fs';
 import * as program from 'commander';
-import editCommand from './commands/edit';
-import removeCommand from './commands/remove';
+import editCmd from './commands/edit';
+import removeCmd from './commands/remove';
+import renameCmd from './commands/rename';
 
 const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
@@ -17,11 +18,14 @@ program.version(pkg.version);
 /* Define commands */
 program.command('edit [key]')
   .description('edit values for the key')
-  .action((key: string, options: any) => editCommand(key, {...context, ...options}));
+  .action((key: string, options: any) => editCmd(key, {...context, ...options}));
 
 program.command('remove [key]')
   .description('remove the key')
-  .action((key:string, options:any) => removeCommand(key, {...context, ...options}));
+  .action((key:string, options:any) => removeCmd(key, {...context, ...options}));
 
+program.command('rename [oldKey] [newKey]')
+  .description('rename the key')
+  .action((oldKey:string, newKey:string, options:any) => renameCmd(oldKey, newKey, {...context, ...options}));
 
 program.parse(process.argv);

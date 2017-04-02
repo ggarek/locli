@@ -1,9 +1,6 @@
 # Features
 [-] edit [key|key-list]
 [-] remove [key|key-list]
-[-] rename [oldKey] [newKey]
-[-] copy [key] [newKey]
-[-] print [[key|key-list] | key=[*|key|key-list]
 [-] export --format=csv
 [-] import --format=csv
 [-] add [key] --default=[value] // subset of edit

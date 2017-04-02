@@ -3,7 +3,7 @@ import {
 } from '../utils';
 import padEnd = require('lodash/padEnd');
 
-async function print(keys:string[], options:any){
+async function print(keys: string[], options: any) {
   const files = await loadFiles(options);
 
   for (const key of keys) {

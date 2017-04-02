@@ -17,7 +17,7 @@ const context = {
   ethalon: 'en.json',
 };
 
-const list = (str:string) => str.split(',');
+const list = (str: string) => str.split(',');
 
 program.version(pkg.version);
 
@@ -28,15 +28,15 @@ program.command('edit <key>')
 
 program.command('remove <keys>')
   .description('remove the key')
-  .action((keys:string, options:any) => removeCmd(list(keys), {...context, ...options}));
+  .action((keys: string, options: any) => removeCmd(list(keys), {...context, ...options}));
 
 program.command('rename <oldKey> <newKey>')
   .description('rename the key')
-  .action((oldKey:string, newKey:string, options:any) => renameCmd(oldKey, newKey, {...context, ...options}));
+  .action((oldKey: string, newKey: string, options: any) => renameCmd(oldKey, newKey, {...context, ...options}));
 
 program.command('copy <srcKey> <dstKey>')
   .description('make a copy of an existing key')
-  .action((srcKey:string, dstKey:string, options:any) => copyCmd(srcKey, dstKey, {...context, ...options}));
+  .action((srcKey: string, dstKey: string, options: any) => copyCmd(srcKey, dstKey, {...context, ...options}));
 
 program.command('print <keys>')
   .description('print values for the key')

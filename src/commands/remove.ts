@@ -3,7 +3,7 @@ import {
   writeFile,
 } from '../utils';
 
-async function remove(keys:string[], options:any):Promise<void> {
+async function remove(keys: string[], options: any): Promise<void> {
   const files = await loadFiles(options);
 
   for (const key of keys) {

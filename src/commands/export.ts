@@ -5,7 +5,7 @@ import _fs = require('fs');
 import pify = require('pify');
 const fs = pify(_fs);
 
-async function exportData(keys:string[], context:any, options:any) {
+async function exportData(keys: string[], context: any, options: any) {
   if (options.format !== 'csv') {
     console.log('export is currently possible only in CSV format');
     process.exit(1);
@@ -25,7 +25,7 @@ async function exportData(keys:string[], context:any, options:any) {
 
   const rows = [
     ['key', ...files.map(x => x.fileName.split('.')[0])],
-    ...finalKeys.map((key, i) => [key, ...files.map(x => x.data[key])])
+    ...finalKeys.map((key, i) => [key, ...files.map(x => x.data[key])]),
   ];
 
   await fs.writeFile(options.outFile, rows.map(row => row.join(',')).join('\n'));

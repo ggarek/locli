@@ -4,7 +4,8 @@
     "target": "ES6",
     "moduleResolution": "Node",
     "module": "commonjs",
-    "types": ["node"]
+    "types": ["node"],
+    "lib": ["ES2015"]
   },
   "include": [
     "src/**/*.ts"

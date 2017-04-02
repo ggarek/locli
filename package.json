@@ -5,8 +5,8 @@
   "main": "lib/scripts/locli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start_": "babel src/ -d lib/ -w",
-    "start": "rm -rf ./lib/** && tsc --outDir ./lib/ --importHelpers"
+    "start": "yarn run lint && rm -rf ./lib/** && tsc --outDir ./lib/ --importHelpers",
+    "lint": "tslint -p tsconfig.json"
   },
   "bin": {
     "locli": "./lib/scripts/locli.js"
@@ -31,6 +31,7 @@
     "@types/node": "^7.0.12",
     "@types/pify": "^0.0.28",
     "tslib": "^1.6.0",
+    "tslint": "^5.0.0",
     "typescript": "^2.2.2"
   }
 }

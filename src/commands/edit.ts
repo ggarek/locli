@@ -18,7 +18,7 @@ function createBuffer(key: string, entries: Array<[string, string]>) {
   buffer += '#------------------------------------\n';
   buffer += '\n';
 
-  const maxFileLength = entries.reduce((a,[b]) => Math.max(a, b.length), 0);
+  const maxFileLength = entries.reduce((a, [b]) => Math.max(a, b.length), 0);
   entries.forEach(([file, value]) => {
     buffer += `${padEnd(file, maxFileLength)}\t${value}`;
     buffer += '\n';
@@ -33,7 +33,7 @@ function createBuffer(key: string, entries: Array<[string, string]>) {
 async function edit(key: string, options: any): Promise<void> {
   const files = await loadFiles(options);
   const editBuffer = createBuffer(
-    key, files.map(({ fileName, data }):[string, string] => [fileName, propOrDefault(data, key)])
+    key, files.map(({ fileName, data }): [string, string] => [fileName, propOrDefault(data, key)]),
   );
   const editFile =  './\~locli.edit';
 

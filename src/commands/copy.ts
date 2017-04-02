@@ -10,15 +10,14 @@ import {
   fileLines,
 } from '../utils';
 
-
-function createBuffer(srcKey:string, dstKey:string, entries:[string, string][]) {
+function createBuffer(srcKey: string, dstKey: string, entries: Array<[string, string]>) {
   let buffer = '';
   buffer += `# You copy "${srcKey}" to new key "${dstKey}"\n`;
   buffer += '# Empty line, or lines starting with "#" will be skipped\n';
   buffer += '#------------------------------------\n';
   buffer += '\n';
 
-  const maxFileLength = entries.reduce((a,[file]) => Math.max(a, file.length), 0);
+  const maxFileLength = entries.reduce((a, [file]) => Math.max(a, file.length), 0);
   entries.forEach(([file, value]) => {
     buffer += `${padEnd(file, maxFileLength)}\t${value}`;
     buffer += '\n';
@@ -30,10 +29,10 @@ function createBuffer(srcKey:string, dstKey:string, entries:[string, string][]) 
   return buffer;
 }
 
-async function copy(srcKey:string, dstKey:string, options:any) {
+async function copy(srcKey: string, dstKey: string, options: any) {
   const files = await loadFiles(options);
   const editBuffer = createBuffer(
-    srcKey, dstKey, files.map(({ fileName, data }):[string, string] => [fileName, propOrDefault(data, srcKey)])
+    srcKey, dstKey, files.map(({ fileName, data }): [string, string] => [fileName, propOrDefault(data, srcKey)]),
   );
   const editFile = './\~locli.copy';
 

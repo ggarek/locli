@@ -1,9 +1,9 @@
 import {
   loadFiles,
-  writeFile
+  writeFile,
 } from '../utils';
 
-async function rename(oldKey:string, newKey:string, options:any):Promise<void> {
+async function rename(oldKey: string, newKey: string, options: any): Promise<void> {
   const missed = [];
   const files = await loadFiles(options);
   for (const file of files) {

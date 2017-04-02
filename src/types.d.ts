@@ -1,3 +1,3 @@
 export interface IHash<T> {
-  [key:string]: T
+  [key: string]: T;
 }

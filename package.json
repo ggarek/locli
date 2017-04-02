@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "yarn run lint && rm -rf ./lib/** && tsc --outDir ./lib/ --importHelpers",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json",
+    "prepublish": "yarn run lint"
   },
   "bin": {
     "locli": "./lib/index.js"

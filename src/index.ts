@@ -5,6 +5,7 @@ import removeCmd from './commands/remove';
 import renameCmd from './commands/rename';
 import copyCmd from './commands/copy';
 import printCmd from './commands/print';
+import exportCmd from './commands/export';
 
 const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
@@ -13,6 +14,7 @@ const context = {
   path: './src/vocabularies', // path to files to be processed
   indentation: '  ',
   editor: 'vim',
+  ethalon: 'en.json',
 };
 
 const list = (str:string) => str.split(',');
@@ -39,5 +41,11 @@ program.command('copy <srcKey> <dstKey>')
 program.command('print <keys>')
   .description('print values for the key')
   .action((keys, options) => printCmd(list(keys), {...context, ...options}));
+
+program.command('export <keys>')
+  .option('--format <format>', 'Export format', /^(csv)$/i)
+  .option('-o, --outFile <file>', 'Output file')
+  .description('export data')
+  .action((keys, options) => exportCmd(list(keys), context, options));
 
 program.parse(process.argv);

@@ -15,27 +15,29 @@ const context = {
   editor: 'vim',
 };
 
+const list = (str:string) => str.split(',');
+
 program.version(pkg.version);
 
 /* Define commands */
-program.command('edit [key]')
+program.command('edit <key>')
   .description('edit values for the key')
   .action((key: string, options: any) => editCmd(key, {...context, ...options}));
 
-program.command('remove [key]')
+program.command('remove <key>')
   .description('remove the key')
   .action((key:string, options:any) => removeCmd(key, {...context, ...options}));
 
-program.command('rename [oldKey] [newKey]')
+program.command('rename <oldKey> <newKey>')
   .description('rename the key')
   .action((oldKey:string, newKey:string, options:any) => renameCmd(oldKey, newKey, {...context, ...options}));
 
-program.command('copy [srcKey] [dstKey]')
+program.command('copy <srcKey> <dstKey>')
   .description('make a copy of an existing key')
   .action((srcKey:string, dstKey:string, options:any) => copyCmd(srcKey, dstKey, {...context, ...options}));
 
-program.command('print [key]')
+program.command('print <keys>')
   .description('print values for the key')
-  .action((key, options) => printCmd(key, {...context, ...options}));
+  .action((keys, options) => printCmd(list(keys), {...context, ...options}));
 
 program.parse(process.argv);

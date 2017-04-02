@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as fs from 'fs';
 import * as program from 'commander';
+import path = require('path');
 import editCmd from './commands/edit';
 import removeCmd from './commands/remove';
 import renameCmd from './commands/rename';
@@ -8,7 +9,7 @@ import copyCmd from './commands/copy';
 import printCmd from './commands/print';
 import exportCmd from './commands/export';
 
-const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
 
 // TODO: it is local context, the information necessary for each command
 const context = {

@@ -2,14 +2,17 @@
   "name": "locli",
   "version": "0.1.0",
   "description": "CLI for managing json files with similar structure in a batch ",
-  "main": "lib/scripts/locli.js",
+  "main": "lib",
+  "engines": {
+    "node": ">=6.5.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "yarn run lint && rm -rf ./lib/** && tsc --outDir ./lib/ --importHelpers",
     "lint": "tslint -p tsconfig.json"
   },
   "bin": {
-    "locli": "./lib/scripts/locli.js"
+    "locli": "./lib/index.js"
   },
   "keywords": [
     "cli",
@@ -23,14 +26,14 @@
   "dependencies": {
     "commander": "^2.9.0",
     "lodash": "^4.17.4",
-    "pify": "^2.3.0"
+    "pify": "^2.3.0",
+    "tslib": "^1.6.0"
   },
   "devDependencies": {
     "@types/commander": "^2.3.31",
     "@types/lodash": "^4.14.61",
     "@types/node": "^7.0.12",
     "@types/pify": "^0.0.28",
-    "tslib": "^1.6.0",
     "tslint": "^5.0.0",
     "typescript": "^2.2.2"
   }

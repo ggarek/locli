@@ -24,9 +24,9 @@ program.command('edit <key>')
   .description('edit values for the key')
   .action((key: string, options: any) => editCmd(key, {...context, ...options}));
 
-program.command('remove <key>')
+program.command('remove <keys>')
   .description('remove the key')
-  .action((key:string, options:any) => removeCmd(key, {...context, ...options}));
+  .action((keys:string, options:any) => removeCmd(list(keys), {...context, ...options}));
 
 program.command('rename <oldKey> <newKey>')
   .description('rename the key')

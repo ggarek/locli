@@ -1,6 +1,6 @@
 {
   "name": "locli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI for managing json files with similar structure in a batch ",
   "main": "lib",
   "engines": {

@@ -5,9 +5,15 @@
 [-] add [key] --default=[value] // subset of edit
 [-] validate --ethalon=[file]
 
+# Bugs
+[-] program can not handle keys containing ','
+
+# Thoughts
+Support space or tabs for print mode. Some editors reduce \t to their own understanding of 1 tap=x space. It is bad for presentation.
 
 # Mess
 
+- add '-lang=[en|es|pt|..]+' to print keys only for these langs
 - add key to locales: key+default value(en)
 - remove key from locales: key
   - remove key with wildcards, like 'tradePanel.*' -> ask user for each key, or remove all (like git clean -i)
@@ -15,6 +21,7 @@
 - compare locales: ethalon(en)
 - interactive set value by key (much like `git clean -i`)
 - list keys
+- add cmd to create folder with vocabulary files (locli create-empty langs=en,es,pt ext=json)
 
 Must be a js API(to use in webpack for example) and cli tool
 

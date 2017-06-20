@@ -47,6 +47,7 @@ program.command('print <keys>')
 program.command('export <keys>')
   .option('--format <format>', 'Export format', /^(csv)$/i)
   .option('-o, --outFile <file>', 'Output file')
+  .option('--lang <lang>', 'Languages to export', list, '*')
   .description('export data')
   .action((keys, options) => exportCmd(list(keys), context, options));
 

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "yarn run lint && rm -rf ./lib/** && tsc --outDir ./lib/ --importHelpers",
+    "build": "rm -rf ./lib/** && tsc --outDir ./lib/ --importHelpers",
+    "start": "yarn lint && yarn build",
     "lint": "tslint -p tsconfig.json",
     "prepublish": "yarn start"
   },

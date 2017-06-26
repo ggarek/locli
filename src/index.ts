@@ -8,6 +8,7 @@ import renameCmd from './commands/rename';
 import copyCmd from './commands/copy';
 import printCmd from './commands/print';
 import exportCmd from './commands/export';
+import importCmd from './commands/import';
 
 const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
 
@@ -45,10 +46,17 @@ program.command('print <keys>')
   .action((keys, options) => printCmd(list(keys), {...context, ...options}));
 
 program.command('export <keys>')
+  .description('export data')
   .option('--format <format>', 'Export format', /^(csv)$/i)
   .option('-o, --outFile <file>', 'Output file')
   .option('--lang <lang>', 'Languages to export', list, '*')
-  .description('export data')
   .action((keys, options) => exportCmd(list(keys), context, options));
+
+program.command('import <file>')
+  .description('import data')
+  .option('--format <format>', 'Data format', /^(csv)$/i)
+  .option('--separator <separator>', 'CSV: separator', ',')
+  .option('--overwrite', 'Overwrite existing locale files', false)
+  .action((file: string, options) => importCmd(file, context, options));
 
 program.parse(process.argv);

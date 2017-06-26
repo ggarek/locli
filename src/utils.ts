@@ -85,8 +85,8 @@ async function loadFiles(context: any): Promise<ILoadedFile[]> {
   return Promise.all(files);
 }
 
-async function writeFile(file: ILoadedFile, context: any): Promise<void> {
-  return pfs.writeFile(file.filePath, JSON.stringify(file.data, null, context.indentation));
+async function writeFile(file: ILoadedFile, context: any, options?: any): Promise<void> {
+  return pfs.writeFile(file.filePath, JSON.stringify(file.data, null, context.indentation), options);
 }
 
 const propOrDefault = (src: { [key: string]: any }, key: string, defaultValue: any = '.'): string => {

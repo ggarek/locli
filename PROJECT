@@ -1,7 +1,5 @@
 # Features
 [-] edit [key|key-list]
-[-] export --format=csv
-[-] import --format=csv
 [-] add [key] --default=[value] // subset of edit
 [-] validate --ethalon=[file]
 

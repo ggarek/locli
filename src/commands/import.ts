@@ -35,20 +35,20 @@ async function importData(file: string, context: any, options: any) {
     return;
   }
 
-  await Promise.all(locales.map(({ lang, data }) => {
-      const file = {
-        fileName: `${lang}.json`,
-        filePath: path.join(context.path, `${lang}.json`),
-        data: data,
+  await Promise.all(locales.map(locale => {
+      const localeFile = {
+        fileName: `${locale.lang}.json`,
+        filePath: path.join(context.path, `${locale.lang}.json`),
+        data: locale.data,
       };
 
-      if (!options.overwrite && fs.existsSync(file.filePath)) {
-        console.log(`File ${file.fileName} already exists (run with --overwrite to overwrite the file)`);
+      if (!options.overwrite && fs.existsSync(localeFile.filePath)) {
+        console.log(`File ${localeFile.fileName} already exists (run with --overwrite to overwrite the file)`);
         return null;
       }
 
-      return writeFile(file, context);
-    })
+      return writeFile(localeFile, context);
+    }),
   );
 }
 
